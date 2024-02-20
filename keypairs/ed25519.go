@@ -32,7 +32,11 @@ func (c *ed25519Alg) sign(msg, privKey string) (string, error) {
 		return "", err
 	}
 	rawPriv := ed25519.NewKeyFromSeed(b[1:])
-	signedMsg := ed25519.Sign(rawPriv, []byte(msg))
+	rawMsg, err := hex.DecodeString(msg)
+	if err != nil {
+		return "", err
+	}
+	signedMsg := ed25519.Sign(rawPriv, rawMsg)
 	return formatKey(signedMsg), nil
 }
 
