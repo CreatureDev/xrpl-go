@@ -7,6 +7,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/stretchr/testify v1.7.5
 	github.com/ugorji/go/codec v1.2.11
+	golang.org/x/exp v0.0.0-20240213143201-ec583247a57a
 )
 
 require (

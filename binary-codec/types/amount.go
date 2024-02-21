@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -83,8 +84,21 @@ func (a *Amount) FromJson(value any) ([]byte, error) {
 		return serializeXrpAmount(v)
 	case types.IssuedCurrencyAmount:
 		return serializeIssuedCurrencyAmount(v)
+	case map[string]interface{}:
+		var cur types.IssuedCurrencyAmount
+		cur.Issuer = types.Address(v["issuer"].(string))
+		cur.Currency = v["currency"].(string)
+		cur.Value = v["value"].(string)
+		return serializeIssuedCurrencyAmount(cur)
+	case string:
+		i64, e := strconv.ParseInt(v, 10, 64)
+		if e != nil {
+			return nil, e
+		}
+		amt := types.XRPCurrencyAmount(i64)
+		return serializeXrpAmount(amt)
 	default:
-		return nil, errors.New("invalid amount type")
+		return nil, errors.New("invalid amount type " + reflect.TypeOf(v).Name())
 	}
 }
 

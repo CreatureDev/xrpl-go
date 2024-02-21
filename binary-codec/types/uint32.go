@@ -3,6 +3,7 @@ package types
 import (
 	"bytes"
 	"encoding/binary"
+	"encoding/json"
 	"errors"
 
 	"github.com/CreatureDev/xrpl-go/binary-codec/serdes"
@@ -49,6 +50,9 @@ func expandInt(v any) (uint32, error) {
 		return uint32(v), nil
 	case uint32:
 		return v, nil
+	case json.Number:
+		i64, e := v.Int64()
+		return uint32(i64), e
 	default:
 		return 0, ErrInvalidUInt32
 	}

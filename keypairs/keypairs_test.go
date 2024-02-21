@@ -2,10 +2,15 @@ package keypairs
 
 import (
 	"bytes"
+	"encoding/hex"
+	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/require"
 	addresscodec "github.com/CreatureDev/xrpl-go/address-codec"
+	binarycodec "github.com/CreatureDev/xrpl-go/binary-codec"
+	"github.com/CreatureDev/xrpl-go/model/transactions"
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
+	"github.com/stretchr/testify/require"
 )
 
 func TestGenerateEncodeSeed(t *testing.T) {
@@ -179,7 +184,7 @@ func TestSign(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
-			actual, err := Sign(tc.inputMsg, tc.inputPrivKey)
+			actual, err := Sign([]byte(tc.inputMsg), tc.inputPrivKey)
 			if tc.expectedErr != nil {
 				require.Zero(t, actual)
 				require.Error(t, err, tc.expectedErr.Error())
@@ -212,7 +217,7 @@ func TestValidate(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
-			actual, err := Validate(tc.inputMsg, tc.inputPubKey, tc.inputSig)
+			actual, err := Validate([]byte(tc.inputMsg), tc.inputPubKey, tc.inputSig)
 			if tc.expectedErr != nil {
 				require.Zero(t, actual)
 				require.Error(t, err, tc.expectedErr.Error())
@@ -221,5 +226,40 @@ func TestValidate(t *testing.T) {
 				require.Equal(t, tc.expected, actual)
 			}
 		})
+	}
+}
+
+func TestTransaction(t *testing.T) {
+	tt := []struct {
+		Tx          transactions.Tx
+		privateKey  string
+		expectedSig string
+		expectedEnc string
+	}{
+		{
+			Tx: &transactions.Payment{
+				BaseTx: transactions.BaseTx{
+					Account:         types.Address("rNJWfdMZ4KM7sZAwY5MLfFfY3tDf77a7S5"),
+					TransactionType: transactions.PaymentTx,
+					Fee:             types.XRPCurrencyAmount(10),
+					Sequence:        45537829,
+					SigningPubKey:   "ED17F53B9BBBA35BCC8E2ED0DA078B5391E191A1193CA272727D035DA3FC60A39B",
+					Flags:           types.SetFlag(0),
+				},
+				Amount:      types.XRPCurrencyAmount(100),
+				Destination: types.Address("rMSNLbqJK1BuUsSbqUbq6KVr665vZMAiVo"),
+			},
+			privateKey:  "ED98EDA9342E29FDC0F8141E42E0B9470631A65B16BAC07FC7535B3E450E29C548",
+			expectedSig: "2F35CEE92BDE5126FFEC7B210491709CE1D1E348F34DBC974A225FB956507150887717FAFA71589D4893E5048B85C153FD05ED192320F9C705B5D1274FCF7302",
+			expectedEnc: "5354580012000022000000002402B6DA2561400000000000006468400000000000000A7321ED17F53B9BBBA35BCC8E2ED0DA078B5391E191A1193CA272727D035DA3FC60A39B811491E9028888C90F420E665AF6274041F1B7771B5F8314E0280C75CD9BDCB2B5A55BB8DF1C8B88006D886F",
+		},
+	}
+	for _, tc := range tt {
+		enc, err := binarycodec.EncodeForSigning(tc.Tx)
+		require.NoError(t, err)
+		require.Equal(t, tc.expectedEnc, strings.ToUpper(hex.EncodeToString(enc)))
+		actual, err := Sign(enc, tc.privateKey)
+		require.NoError(t, err)
+		require.Equal(t, tc.expectedSig, actual)
 	}
 }

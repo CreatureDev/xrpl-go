@@ -1,6 +1,7 @@
 package binarycodec
 
 import (
+	"encoding/hex"
 	"testing"
 
 	"github.com/CreatureDev/xrpl-go/model/transactions"
@@ -334,7 +335,9 @@ func TestEncodeForMultisigning(t *testing.T) {
 				require.Empty(t, got)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, tc.output, got)
+				expected, err := hex.DecodeString(tc.output)
+				require.NoError(t, err)
+				require.Equal(t, expected, got)
 			}
 		})
 	}
@@ -384,7 +387,9 @@ func TestEncodeForSigningClaim(t *testing.T) {
 				require.Empty(t, got)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, tc.output, got)
+				expected, err := hex.DecodeString(tc.output)
+				require.NoError(t, err)
+				require.Equal(t, expected, got)
 			}
 		})
 	}
@@ -426,13 +431,14 @@ func TestEncodeForSigning(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
 			got, err := EncodeForSigning(tc.input)
-
 			if tc.expectedErr != nil {
 				require.EqualError(t, err, tc.expectedErr.Error())
 				require.Empty(t, got)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, tc.output, got)
+				expected, err := hex.DecodeString(tc.output)
+				require.NoError(t, err)
+				require.Equal(t, expected, got)
 			}
 		})
 	}

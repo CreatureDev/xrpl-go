@@ -26,18 +26,18 @@ func (c *ed25519Alg) deriveKeypair(decodedSeed []byte, validator bool) (string, 
 	return private, public, nil
 }
 
-func (c *ed25519Alg) sign(msg, privKey string) (string, error) {
+func (c *ed25519Alg) sign(msg []byte, privKey string) (string, error) {
 	b, err := hex.DecodeString(privKey)
 	if err != nil {
 		return "", err
 	}
 	rawPriv := ed25519.NewKeyFromSeed(b[1:])
-	signedMsg := ed25519.Sign(rawPriv, []byte(msg))
+	signedMsg := ed25519.Sign(rawPriv, msg)
 	return formatKey(signedMsg), nil
 }
 
-func (c *ed25519Alg) validate(msg, pubkey, sig string) bool {
-	return ed25519.Verify(ed25519.PublicKey(deformatKey(pubkey)[1:]), []byte(msg), deformatKey(sig))
+func (c *ed25519Alg) validate(msg []byte, pubkey, sig string) bool {
+	return ed25519.Verify(ed25519.PublicKey(deformatKey(pubkey)[1:]), msg, deformatKey(sig))
 }
 
 type ed25519ValidatorError struct{}
