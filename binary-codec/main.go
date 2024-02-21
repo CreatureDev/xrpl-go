@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/hex"
 	"errors"
-	"fmt"
 	"reflect"
 	"strings"
 
@@ -89,11 +88,6 @@ func EncodeForSigning(tx transactions.Tx) ([]byte, error) {
 	encoded, err := encodeBinary(tx, true, nil)
 	if err != nil {
 		return nil, err
-	}
-	tEnc, err := encode(tx, true, nil)
-	b, _ := hex.DecodeString(tEnc)
-	if !reflect.DeepEqual(b, encoded) {
-		return nil, fmt.Errorf("encoding mismatch\n%s\n%s\nend", hex.EncodeToString(b), hex.EncodeToString(encoded))
 	}
 
 	ret, err := hex.DecodeString(txSigPrefix)

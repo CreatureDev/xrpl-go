@@ -1,6 +1,7 @@
 package types
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -26,16 +27,20 @@ var ErrInvalidPathSet error = errors.New("invalid type to construct PathSet from
 
 // FromJson attempts to serialize a path set from a JSON representation of a slice of paths to a byte array.
 // It returns the byte array representation of the path set, or an error if the provided json does not represent a valid path set.
-func (p PathSet) FromJson(json any) ([]byte, error) {
+func (p PathSet) FromJson(data any) ([]byte, error) {
 	// var pathSet [][]transactions.PathStep
 	// if pathSet, ok := json.([][]transactions.PathStep); !ok {
 	// 	return nil, ErrInvalidPathSet
 	// }
-	pathSet, ok := json.([][]transactions.PathStep)
-	if !ok {
-		return nil, ErrInvalidPathSet
+	d, err := json.Marshal(data)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", ErrInvalidPathSet.Error(), err)
 	}
-
+	var pathSet [][]transactions.PathStep
+	err = json.Unmarshal(d, &pathSet)
+	if err != nil {
+		return nil, fmt.Errorf("%s: %w", ErrInvalidPathSet.Error(), err)
+	}
 	if !isPathSet(pathSet) {
 		return nil, ErrInvalidPathSet
 	}

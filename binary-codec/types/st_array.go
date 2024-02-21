@@ -26,7 +26,7 @@ var ErrNotSTObjectInSTArray = errors.New("not STObject in STArray. Array fields 
 func (t *STArray) FromJson(json any) ([]byte, error) {
 	rv := reflect.ValueOf(json)
 	if rv.Kind() != reflect.Slice {
-		return nil, fmt.Errorf("what: %w", ErrNotSTObjectInSTArray)
+		return nil, fmt.Errorf("provided starray is not a slice: %w", ErrNotSTObjectInSTArray)
 	}
 	var sink []byte
 	for i := 0; i < rv.Len(); i++ {

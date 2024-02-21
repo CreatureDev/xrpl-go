@@ -81,11 +81,11 @@ func (t *STObject) FromJson(data any) ([]byte, error) {
 		st := GetSerializedType(v.Type)
 		b, err := st.FromJson(fimap[v])
 		if err != nil {
-			return nil, fmt.Errorf("from json %+v, type %s: %w", fimap[v], v.Type, err)
+			return nil, fmt.Errorf("from json, type %s: %w", v.Type, err)
 		}
 		err = s.WriteFieldAndValue(v, b)
 		if err != nil {
-			return nil, fmt.Errorf("write field and val %+v, %+v: %w", v, b, err)
+			return nil, fmt.Errorf("write field %+v: %w", v.Type, err)
 		}
 	}
 	return s.GetSink(), nil
@@ -259,7 +259,6 @@ func checkZero(v any) bool {
 	if v == nil {
 		return true
 	}
-	fmt.Printf("%#v\n", v)
 	rv := reflect.ValueOf(v)
 	switch reflect.TypeOf(v).Kind() {
 	case reflect.Ptr, reflect.Map, reflect.Array, reflect.Chan, reflect.Slice:

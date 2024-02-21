@@ -98,7 +98,6 @@ func TestSTArrayFromJson(t *testing.T) {
 
 	for ind, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
-			require.Empty(t, tc.output)
 			sa := &STArray{}
 			got, err := sa.FromJson(tc.input)
 			if tc.expectedErr != nil {
