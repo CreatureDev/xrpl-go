@@ -10,7 +10,7 @@ import (
 func TestNFTokenOffer(t *testing.T) {
 	var s LedgerObject = &NFTokenOffer{
 		Amount:            types.XRPCurrencyAmount(1000000),
-		Flags:             1,
+		Flags:             types.SetFlag(1),
 		LedgerEntryType:   NFTokenOfferEntry,
 		NFTokenID:         "00081B5825A08C22787716FA031B432EBBC1B101BB54875F0002D2A400000000",
 		NFTokenOfferNode:  "0",

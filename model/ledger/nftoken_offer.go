@@ -7,17 +7,17 @@ import (
 )
 
 type NFTokenOffer struct {
-	Amount            types.CurrencyAmount
-	Destination       types.Address `json:",omitempty"`
-	Expiration        uint          `json:",omitempty"`
-	Flags             uint32
-	LedgerEntryType   LedgerEntryType
-	NFTokenID         types.Hash256
-	NFTokenOfferNode  string `json:",omitempty"`
-	Owner             types.Address
-	OwnerNode         string `json:",omitempty"`
-	PreviousTxnID     types.Hash256
-	PreviousTxnLgrSeq uint32
+	Amount            types.CurrencyAmount `json:",omitempty"`
+	Destination       types.Address        `json:",omitempty"`
+	Expiration        uint                 `json:",omitempty"`
+	Flags             *types.Flag          `json:",omitempty"`
+	LedgerEntryType   LedgerEntryType      `json:",omitempty"`
+	NFTokenID         types.Hash256        `json:",omitempty"`
+	NFTokenOfferNode  string               `json:",omitempty"`
+	Owner             types.Address        `json:",omitempty"`
+	OwnerNode         string               `json:",omitempty"`
+	PreviousTxnID     types.Hash256        `json:",omitempty"`
+	PreviousTxnLgrSeq uint32               `json:",omitempty"`
 }
 
 func (*NFTokenOffer) EntryType() LedgerEntryType {
@@ -46,7 +46,7 @@ func (n *NFTokenOffer) UnmarshalJSON(data []byte) error {
 	*n = NFTokenOffer{
 		Destination:       h.Destination,
 		Expiration:        h.Expiration,
-		Flags:             h.Flags,
+		Flags:             types.SetFlag(h.Flags),
 		LedgerEntryType:   h.LedgerEntryType,
 		NFTokenID:         h.NFTokenID,
 		NFTokenOfferNode:  h.NFTokenOfferNode,

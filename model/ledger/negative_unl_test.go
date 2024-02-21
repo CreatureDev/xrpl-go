@@ -3,6 +3,7 @@ package ledger
 import (
 	"testing"
 
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"github.com/CreatureDev/xrpl-go/test"
 )
 
@@ -16,7 +17,7 @@ func TestNegativeUNL(t *testing.T) {
 				},
 			},
 		},
-		Flags:           0,
+		Flags:           types.SetFlag(0),
 		LedgerEntryType: NegativeUNLEntry,
 	}
 

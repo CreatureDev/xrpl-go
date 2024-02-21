@@ -18,18 +18,18 @@ const (
 )
 
 type Offer struct {
-	Account           types.Address
-	BookDirectory     types.Hash256
-	BookNode          string
-	Expiration        uint `json:",omitempty"`
-	Flags             OfferFlags
-	LedgerEntryType   LedgerEntryType `json:",omitempty"`
-	OwnerNode         string
-	PreviousTxnID     types.Hash256
-	PreviousTxnLgrSeq uint32
-	Sequence          uint32
-	TakerPays         types.CurrencyAmount
-	TakerGets         types.CurrencyAmount
+	Account           types.Address        `json:",omitempty"`
+	BookDirectory     types.Hash256        `json:",omitempty"`
+	BookNode          string               `json:",omitempty"`
+	Expiration        uint                 `json:",omitempty"`
+	Flags             *types.Flag          `json:",omitempty"`
+	LedgerEntryType   LedgerEntryType      `json:",omitempty"`
+	OwnerNode         string               `json:",omitempty"`
+	PreviousTxnID     types.Hash256        `json:",omitempty"`
+	PreviousTxnLgrSeq uint32               `json:",omitempty"`
+	Sequence          uint32               `json:",omitempty"`
+	TakerPays         types.CurrencyAmount `json:",omitempty"`
+	TakerGets         types.CurrencyAmount `json:",omitempty"`
 }
 
 func (*Offer) EntryType() LedgerEntryType {
@@ -42,7 +42,7 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		BookDirectory     types.Hash256
 		BookNode          string
 		Expiration        uint
-		Flags             OfferFlags
+		Flags             uint32
 		LedgerEntryType   LedgerEntryType
 		OwnerNode         string
 		PreviousTxnID     types.Hash256
@@ -60,7 +60,7 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		BookDirectory:     h.BookDirectory,
 		BookNode:          h.BookNode,
 		Expiration:        h.Expiration,
-		Flags:             h.Flags,
+		Flags:             types.SetFlag(h.Flags),
 		LedgerEntryType:   h.LedgerEntryType,
 		OwnerNode:         h.OwnerNode,
 		PreviousTxnID:     h.PreviousTxnID,

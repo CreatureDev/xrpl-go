@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/hex"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -52,7 +53,7 @@ func TestSTArrayFromJson(t *testing.T) {
 							Account:           "r68xfQkhFxZrbwo6RRKq728JF2fJYQRE1",
 							BookDirectory:     "036D7E923EF22B65E19D95A6365C3373E1E96586E27015074A0745621D069432",
 							BookNode:          "0",
-							Flags:             131072,
+							Flags:             types.SetFlag(131072),
 							OwnerNode:         "0",
 							PreviousTxnID:     "B21E9DC8DCB75AD12C4ACF4C72E6E822244CF6CFFD7BD738ACEED1264374B687",
 							PreviousTxnLgrSeq: 82010985,
@@ -95,8 +96,9 @@ func TestSTArrayFromJson(t *testing.T) {
 		},
 	}
 
-	for _, tc := range tt {
+	for ind, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
+			require.Empty(t, tc.output)
 			sa := &STArray{}
 			got, err := sa.FromJson(tc.input)
 			if tc.expectedErr != nil {
@@ -104,7 +106,7 @@ func TestSTArrayFromJson(t *testing.T) {
 				require.Empty(t, got)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, tc.output, strings.ToUpper(hex.EncodeToString(got)))
+				require.Equal(t, tc.output, strings.ToUpper(hex.EncodeToString(got)), "failed on index "+fmt.Sprint(ind))
 			}
 		})
 	}

@@ -15,7 +15,7 @@ func TestAmmendments(t *testing.T) {
 			"6781F8368C4771B83E8B821D88F580202BCB4228075297B19E4FDC5233F1EFDC",
 			"740352F2412A9909880C23A559FCECEDA3BE2126FED62FC7660D628A06927F11",
 		},
-		Flags:           0,
+		Flags:           types.SetFlag(0),
 		LedgerEntryType: AmendmentsEntry,
 		Majorities: []MajorityEntry{
 			{

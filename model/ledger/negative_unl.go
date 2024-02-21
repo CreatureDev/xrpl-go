@@ -1,11 +1,13 @@
 package ledger
 
+import "github.com/CreatureDev/xrpl-go/model/transactions/types"
+
 type NegativeUNL struct {
 	DisabledValidators  []DisabledValidatorEntry `json:",omitempty"`
-	Flags               uint32
-	LedgerEntryType     LedgerEntryType
-	ValidatorToDisable  string `json:",omitempty"`
-	ValidatorToReEnable string `json:",omitempty"`
+	Flags               *types.Flag              `json:",omitempty"`
+	LedgerEntryType     LedgerEntryType          `json:",omitempty"`
+	ValidatorToDisable  string                   `json:",omitempty"`
+	ValidatorToReEnable string                   `json:",omitempty"`
 }
 
 func (*NegativeUNL) EntryType() LedgerEntryType {

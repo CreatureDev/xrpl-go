@@ -14,7 +14,7 @@ func TestRippleState(t *testing.T) {
 			Issuer:   "rrrrrrrrrrrrrrrrrrrrBZbvji",
 			Value:    "-10",
 		},
-		Flags: 393216,
+		Flags: types.SetFlag(393216),
 		HighLimit: types.IssuedCurrencyAmount{
 			Currency: "USD",
 			Issuer:   "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",

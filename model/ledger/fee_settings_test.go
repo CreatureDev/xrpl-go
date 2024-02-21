@@ -3,13 +3,14 @@ package ledger
 import (
 	"testing"
 
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"github.com/CreatureDev/xrpl-go/test"
 )
 
 func TestFeeSettings(t *testing.T) {
 	var s LedgerObject = &FeeSettings{
 		BaseFee:           "000000000000000A",
-		Flags:             0,
+		Flags:             types.SetFlag(0),
 		LedgerEntryType:   FeeSettingsEntry,
 		ReferenceFeeUnits: 10,
 		ReserveBase:       20000000,

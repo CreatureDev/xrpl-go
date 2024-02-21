@@ -20,7 +20,7 @@ func TestPayChannel(t *testing.T) {
 		SourceTag:         0,
 		DestinationTag:    1002341,
 		DestinationNode:   "0000000000000000",
-		Flags:             0,
+		Flags:             types.SetFlag(0),
 		LedgerEntryType:   PayChannelEntry,
 		OwnerNode:         "0000000000000000",
 		PreviousTxnID:     "F0AB71E777B2DA54B86231E19B82554EF1F8211F92ECA473121C655BFC5329BF",

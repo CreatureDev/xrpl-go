@@ -48,7 +48,7 @@ func (t *STObject) FromJson(data any) ([]byte, error) {
 	}
 	m, ok := d.(map[string]interface{})
 	if !ok {
-		return nil, fmt.Errorf("triplegay")
+		return nil, fmt.Errorf("Error converting json data to map")
 	}
 
 	for k, v := range t.Mutations {
@@ -66,7 +66,7 @@ func (t *STObject) FromJson(data any) ([]byte, error) {
 	sk := getSortedKeys(fimap)
 
 	for _, v := range sk {
-		if (fimap[v] == nil || checkZero(fimap[v])) && !containsKey(t.Mutations, v.FieldName) {
+		if checkZero(fimap[v]) && !containsKey(t.Mutations, v.FieldName) {
 			continue
 		}
 
@@ -256,8 +256,15 @@ func enumToStr(fieldType string, value any) (any, error) {
 
 // check for zero value
 func checkZero(v any) bool {
+	if v == nil {
+		return true
+	}
 	fmt.Printf("%#v\n", v)
 	rv := reflect.ValueOf(v)
+	switch reflect.TypeOf(v).Kind() {
+	case reflect.Ptr, reflect.Map, reflect.Array, reflect.Chan, reflect.Slice:
+		return rv.IsNil()
+	}
 	return rv.IsZero()
 }
 

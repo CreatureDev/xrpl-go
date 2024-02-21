@@ -3,6 +3,7 @@ package ledger
 import (
 	"testing"
 
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"github.com/CreatureDev/xrpl-go/test"
 )
 
@@ -13,7 +14,7 @@ func TestCheck(t *testing.T) {
 		DestinationNode:   "0000000000000000",
 		DestinationTag:    1,
 		Expiration:        570113521,
-		Flags:             0,
+		Flags:             types.SetFlag(0),
 		InvoiceID:         "46060241FABCF692D4D934BA2A6C4427CD4279083E38C77CBE642243E43BE291",
 		LedgerEntryType:   CheckEntry,
 		OwnerNode:         "0000000000000000",

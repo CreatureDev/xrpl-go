@@ -3,13 +3,13 @@ package ledger
 import "github.com/CreatureDev/xrpl-go/model/transactions/types"
 
 type Ticket struct {
-	Account           types.Address
-	Flags             uint32
-	LedgerEntryType   LedgerEntryType
-	OwnerNode         string
-	PreviousTxnID     types.Hash256
-	PreviousTxnLgrSeq uint32
-	TicketSequence    uint32
+	Account           types.Address   `json:",omitempty"`
+	Flags             *types.Flag     `json:",omitempty"`
+	LedgerEntryType   LedgerEntryType `json:",omitempty"`
+	OwnerNode         string          `json:",omitempty"`
+	PreviousTxnID     types.Hash256   `json:",omitempty"`
+	PreviousTxnLgrSeq uint32          `json:",omitempty"`
+	TicketSequence    uint32          `json:",omitempty"`
 }
 
 func (*Ticket) EntryType() LedgerEntryType {

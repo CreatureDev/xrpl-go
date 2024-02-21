@@ -17,7 +17,7 @@ func TestEscrow(t *testing.T) {
 		DestinationNode:   "0000000000000000",
 		DestinationTag:    23480,
 		FinishAfter:       545354132,
-		Flags:             0,
+		Flags:             types.SetFlag(0),
 		LedgerEntryType:   EscrowEntry,
 		OwnerNode:         "0000000000000000",
 		PreviousTxnID:     "C44F2EB84196B9AD820313DBEBA6316A15C9A2D35787579ED172B87A30131DA7",

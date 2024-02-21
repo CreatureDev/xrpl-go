@@ -5,19 +5,19 @@ import "github.com/CreatureDev/xrpl-go/model/transactions/types"
 // TODO flags
 
 type RippleState struct {
-	Balance           types.IssuedCurrencyAmount
-	Flags             uint
-	HighLimit         types.IssuedCurrencyAmount
-	HighNode          string
-	HighQualityIn     uint `json:",omitempty"`
-	HighQualityOut    uint `json:",omitempty"`
-	LedgerEntryType   LedgerEntryType
-	LowLimit          types.IssuedCurrencyAmount
-	LowNode           string
-	LowQualityIn      uint `json:",omitempty"`
-	LowQualityOut     uint `json:",omitempty"`
-	PreviousTxnID     types.Hash256
-	PreviousTxnLgrSeq uint32
+	Balance           types.IssuedCurrencyAmount `json:",omitempty"`
+	Flags             *types.Flag                `json:",omitempty"`
+	HighLimit         types.IssuedCurrencyAmount `json:",omitempty"`
+	HighNode          string                     `json:",omitempty"`
+	HighQualityIn     uint                       `json:",omitempty"`
+	HighQualityOut    uint                       `json:",omitempty"`
+	LedgerEntryType   LedgerEntryType            `json:",omitempty"`
+	LowLimit          types.IssuedCurrencyAmount `json:",omitempty"`
+	LowNode           string                     `json:",omitempty"`
+	LowQualityIn      uint                       `json:",omitempty"`
+	LowQualityOut     uint                       `json:",omitempty"`
+	PreviousTxnID     types.Hash256              `json:",omitempty"`
+	PreviousTxnLgrSeq uint32                     `json:",omitempty"`
 }
 
 func (*RippleState) EntryType() LedgerEntryType {

@@ -3,12 +3,13 @@ package ledger
 import (
 	"testing"
 
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"github.com/CreatureDev/xrpl-go/test"
 )
 
 func TestSignerList(t *testing.T) {
 	var s LedgerObject = &SignerList{
-		Flags:             0,
+		Flags:             types.SetFlag(0),
 		LedgerEntryType:   SignerListEntry,
 		OwnerNode:         "0000000000000000",
 		PreviousTxnID:     "5904C0DC72C58A83AEFED2FFC5386356AA83FCA6A88C89D00646E51E687CDBE4",
@@ -33,7 +34,7 @@ func TestSignerList(t *testing.T) {
 				},
 			},
 		},
-		SignerListID: 0,
+		SignerListID: types.SetUIntID(0),
 		SignerQuorum: 3,
 	}
 

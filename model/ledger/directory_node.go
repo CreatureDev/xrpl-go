@@ -5,17 +5,17 @@ import (
 )
 
 type DirectoryNode struct {
-	Flags             *types.Flag
-	Indexes           []types.Hash256
-	IndexNext         string `json:",omitempty"`
-	IndexPrevious     string `json:",omitempty"`
-	LedgerEntryType   LedgerEntryType
-	Owner             types.Address `json:",omitempty"`
-	RootIndex         types.Hash256
-	TakerGetsCurrency string `json:",omitempty"`
-	TakerGetsIssuer   string `json:",omitempty"`
-	TakerPaysCurrency string `json:",omitempty"`
-	TakerPaysIssuer   string `json:",omitempty"`
+	Flags             *types.Flag     `json:",omitempty"`
+	Indexes           []types.Hash256 `json:",omitempty"`
+	IndexNext         string          `json:",omitempty"`
+	IndexPrevious     string          `json:",omitempty"`
+	LedgerEntryType   LedgerEntryType `json:",omitempty"`
+	Owner             types.Address   `json:",omitempty"`
+	RootIndex         types.Hash256   `json:",omitempty"`
+	TakerGetsCurrency string          `json:",omitempty"`
+	TakerGetsIssuer   string          `json:",omitempty"`
+	TakerPaysCurrency string          `json:",omitempty"`
+	TakerPaysIssuer   string          `json:",omitempty"`
 }
 
 func (*DirectoryNode) EntryType() LedgerEntryType {
