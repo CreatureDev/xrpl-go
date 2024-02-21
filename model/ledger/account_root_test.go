@@ -17,7 +17,7 @@ func TestAccountRoot(t *testing.T) {
 		Flags:             types.SetFlag(8388608),
 		LedgerEntryType:   AccountRootEntry,
 		MessageKey:        "0000000000000000000000070000000300",
-		OwnerCount:        3,
+		OwnerCount:        types.SetUInt(3),
 		PreviousTxnID:     "0D5FB50FA65C9FE1538FD7E398FFFE9D1908DFA4576D8D7A020040686F93C77D",
 		PreviousTxnLgrSeq: 14091160,
 		Sequence:          336,

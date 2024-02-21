@@ -32,19 +32,18 @@ func TestAccountObjectsResponse(t *testing.T) {
 		AccountObjects: []ledger.LedgerObject{
 			&ledger.SignerList{
 				LedgerEntryType:   ledger.SignerListEntry,
-				Flags:             0,
+				Flags:             types.SetFlag(0),
 				PreviousTxnID:     "abc",
 				PreviousTxnLgrSeq: 123,
 				OwnerNode:         "bob",
-				SignerEntries:     []ledger.SignerEntryWrapper{},
-				SignerListID:      213,
+				SignerListID:      types.SetUInt(213),
 				SignerQuorum:      0,
 			},
 			&ledger.NFTokenOffer{
 				Amount:            types.XRPCurrencyAmount(1),
 				Destination:       "abc",
 				Expiration:        1,
-				Flags:             0,
+				Flags:             types.SetFlag(0),
 				LedgerEntryType:   ledger.NFTokenOfferEntry,
 				NFTokenID:         "qwe",
 				Owner:             "asd",
@@ -69,9 +68,7 @@ func TestAccountObjectsResponse(t *testing.T) {
 			"PreviousTxnID": "abc",
 			"PreviousTxnLgrSeq": 123,
 			"OwnerNode": "bob",
-			"SignerEntries": [],
-			"SignerListID": 213,
-			"SignerQuorum": 0
+			"SignerListID": 213
 		},
 		{
 			"Amount": "1",
@@ -82,7 +79,6 @@ func TestAccountObjectsResponse(t *testing.T) {
 			"NFTokenID": "qwe",
 			"Owner": "asd",
 			"OwnerNode": "zxc",
-			"PreviousTxnID": "",
 			"PreviousTxnLgrSeq": 123
 		}
 	],

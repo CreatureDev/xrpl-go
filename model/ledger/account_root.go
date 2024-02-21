@@ -16,7 +16,7 @@ type AccountRoot struct {
 	MessageKey        string                  `json:",omitempty"`
 	MintedNFTokens    uint32                  `json:",omitempty"`
 	NFTokenMinter     types.Address           `json:",omitempty"`
-	OwnerCount        uint32                  `json:",omitempty"`
+	OwnerCount        *types.UInt             `json:",omitempty"`
 	PreviousTxnID     types.Hash256           `json:",omitempty"`
 	PreviousTxnLgrSeq uint32                  `json:",omitempty"`
 	RegularKey        types.Address           `json:",omitempty"`

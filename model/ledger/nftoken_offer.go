@@ -30,7 +30,7 @@ func (n *NFTokenOffer) UnmarshalJSON(data []byte) error {
 		Amount            json.RawMessage
 		Destination       types.Address
 		Expiration        uint
-		Flags             uint32
+		Flags             *types.Flag
 		LedgerEntryType   LedgerEntryType
 		NFTokenID         types.Hash256
 		NFTokenOfferNode  string
@@ -46,7 +46,7 @@ func (n *NFTokenOffer) UnmarshalJSON(data []byte) error {
 	*n = NFTokenOffer{
 		Destination:       h.Destination,
 		Expiration:        h.Expiration,
-		Flags:             types.SetFlag(h.Flags),
+		Flags:             h.Flags,
 		LedgerEntryType:   h.LedgerEntryType,
 		NFTokenID:         h.NFTokenID,
 		NFTokenOfferNode:  h.NFTokenOfferNode,

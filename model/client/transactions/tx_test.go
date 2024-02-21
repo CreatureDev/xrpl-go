@@ -1,14 +1,12 @@
 package transactions
 
 import (
-	"encoding/json"
-	"fmt"
-	"reflect"
 	"testing"
 
 	"github.com/CreatureDev/xrpl-go/model/ledger"
 	"github.com/CreatureDev/xrpl-go/model/transactions"
 	"github.com/CreatureDev/xrpl-go/model/transactions/types"
+	"github.com/CreatureDev/xrpl-go/test"
 )
 
 func TestTxResponse(t *testing.T) {
@@ -32,7 +30,6 @@ func TestTxResponse(t *testing.T) {
 			},
 			OfferSequence: 5037708,
 		},
-
 		Hash:        "C53ECF838647FA5A4C780377025FEC7999AB4182590510CA461444B207AB74A9",
 		Date:        648248020,
 		LedgerIndex: 56865245,
@@ -58,7 +55,7 @@ func TestTxResponse(t *testing.T) {
 							Account:    "rhhh49pFH96roGyuC4E5P4CHaNjS1k8gzM",
 							Balance:    types.XRPCurrencyAmount(10404767991),
 							Flags:      types.SetFlag(0),
-							OwnerCount: 3,
+							OwnerCount: types.SetUInt(3),
 							Sequence:   5037711,
 						},
 						LedgerEntryType: ledger.AccountRootEntry,
@@ -77,7 +74,7 @@ func TestTxResponse(t *testing.T) {
 							Account:           "rhhh49pFH96roGyuC4E5P4CHaNjS1k8gzM",
 							BookDirectory:     "02BAAC1E67C1CE0E96F0FA2E8061020536CEDD043FEB0FF54F04C66806CF7400",
 							BookNode:          "0000000000000000",
-							Flags:             0,
+							Flags:             types.SetFlag(0),
 							OwnerNode:         "0000000000000000",
 							PreviousTxnID:     "8F5FF57B404827F12BDA7561876A13C3E3B3095CBF75334DBFB5F227391A660C",
 							PreviousTxnLgrSeq: 56865244,
@@ -124,7 +121,6 @@ func TestTxResponse(t *testing.T) {
 					},
 				},
 			},
-			TransactionIndex:  0,
 			TransactionResult: "tesSUCCESS",
 		},
 		Validated: true,
@@ -237,31 +233,12 @@ func TestTxResponse(t *testing.T) {
 				}
 			}
 		],
-		"TransactionIndex": 0,
 		"TransactionResult": "tesSUCCESS"
 	},
 	"validated": true
 }`
 	// Due to structure of meta nodes (inclusion of empty fields that server omits) do not test Marshal, only Unmarshal
-	if err := Deserialize(s, j); err != nil {
+	if err := test.SerializeAndDeserialize(t, s, j); err != nil {
 		t.Error(err)
 	}
-}
-
-func Deserialize(s TxResponse, d string) error {
-	var decode TxResponse
-	err := json.Unmarshal([]byte(d), &decode)
-	if err != nil {
-		return err
-	}
-	if !reflect.DeepEqual(s, decode) {
-		if !reflect.DeepEqual(s.Tx, decode.Tx) {
-			fmt.Println("Bad tx")
-		}
-		fmt.Printf("%+v\n", s.Tx.(*transactions.OfferCreate))
-		fmt.Printf("%+v\n", decode.Tx.(*transactions.OfferCreate))
-		return fmt.Errorf("json decoding does not match expected struct")
-	}
-	return nil
-
 }

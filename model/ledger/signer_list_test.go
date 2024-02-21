@@ -34,7 +34,7 @@ func TestSignerList(t *testing.T) {
 				},
 			},
 		},
-		SignerListID: types.SetUIntID(0),
+		SignerListID: types.SetUInt(0),
 		SignerQuorum: 3,
 	}
 

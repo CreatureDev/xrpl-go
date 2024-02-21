@@ -21,7 +21,7 @@ type SignerList struct {
 	PreviousTxnLgrSeq uint32               `json:",omitempty"`
 	OwnerNode         string               `json:",omitempty"`
 	SignerEntries     []SignerEntryWrapper `json:",omitempty"`
-	SignerListID      *types.UIntID        `json:",omitempty"`
+	SignerListID      *types.UInt          `json:",omitempty"`
 	SignerQuorum      uint32               `json:",omitempty"`
 }
 

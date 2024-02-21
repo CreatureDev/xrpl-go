@@ -42,7 +42,7 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		BookDirectory     types.Hash256
 		BookNode          string
 		Expiration        uint
-		Flags             uint32
+		Flags             *types.Flag
 		LedgerEntryType   LedgerEntryType
 		OwnerNode         string
 		PreviousTxnID     types.Hash256
@@ -60,7 +60,7 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		BookDirectory:     h.BookDirectory,
 		BookNode:          h.BookNode,
 		Expiration:        h.Expiration,
-		Flags:             types.SetFlag(h.Flags),
+		Flags:             h.Flags,
 		LedgerEntryType:   h.LedgerEntryType,
 		OwnerNode:         h.OwnerNode,
 		PreviousTxnID:     h.PreviousTxnID,
