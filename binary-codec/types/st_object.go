@@ -1,12 +1,14 @@
 package types
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"reflect"
 	"sort"
 
 	"github.com/CreatureDev/xrpl-go/binary-codec/definitions"
 	"github.com/CreatureDev/xrpl-go/binary-codec/serdes"
-	"github.com/mitchellh/mapstructure"
 )
 
 // FieldMutation allows values to mutated before being serialized.
@@ -31,16 +33,22 @@ type STObject struct {
 // It works by converting the JSON object into a map of field instances (which include the field definition
 // and value), and then serializing each field instance.
 // This method returns an error if the JSON input is not a valid object.
-func (t *STObject) FromJson(json any) ([]byte, error) {
+func (t *STObject) FromJson(data any) ([]byte, error) {
 	s := serdes.NewSerializer()
-	var m map[string]any
-	dec, err := mapstructure.NewDecoder(&mapstructure.DecoderConfig{TagName: "json", Result: &m, Squash: true})
+	var d interface{}
+	j, err := json.Marshal(data)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("marshal: %w", err)
 	}
-	err = dec.Decode(json)
+	dec := json.NewDecoder(bytes.NewBuffer(j))
+	dec.UseNumber()
+	err = dec.Decode(&d)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("unmarshal: %w", err)
+	}
+	m, ok := d.(map[string]interface{})
+	if !ok {
+		return nil, fmt.Errorf("Error converting json data to map")
 	}
 
 	for k, v := range t.Mutations {
@@ -52,7 +60,7 @@ func (t *STObject) FromJson(json any) ([]byte, error) {
 	fimap, err := createFieldInstanceMapFromJson(m)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("create field: %w", err)
 	}
 
 	sk := getSortedKeys(fimap)
@@ -73,11 +81,11 @@ func (t *STObject) FromJson(json any) ([]byte, error) {
 		st := GetSerializedType(v.Type)
 		b, err := st.FromJson(fimap[v])
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("from json, type %s: %w", v.Type, err)
 		}
 		err = s.WriteFieldAndValue(v, b)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("write field %+v: %w", v.Type, err)
 		}
 	}
 	return s.GetSink(), nil
@@ -248,7 +256,14 @@ func enumToStr(fieldType string, value any) (any, error) {
 
 // check for zero value
 func checkZero(v any) bool {
+	if v == nil {
+		return true
+	}
 	rv := reflect.ValueOf(v)
+	switch reflect.TypeOf(v).Kind() {
+	case reflect.Ptr, reflect.Map, reflect.Array, reflect.Chan, reflect.Slice:
+		return rv.IsNil()
+	}
 	return rv.IsZero()
 }
 

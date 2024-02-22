@@ -30,6 +30,45 @@ type LedgerObject interface {
 	EntryType() LedgerEntryType
 }
 
+func GetLedgerEntryTypeOfString(t string) LedgerEntryType {
+	switch LedgerEntryType(t) {
+	case AccountRootEntry:
+		return AccountRootEntry
+	case AmendmentsEntry:
+		return AmendmentsEntry
+	case CheckEntry:
+		return CheckEntry
+	case DepositPreauthObjEntry:
+		return DepositPreauthObjEntry
+	case DirectoryNodeEntry:
+		return DirectoryNodeEntry
+	case EscrowEntry:
+		return EscrowEntry
+	case FeeSettingsEntry:
+		return FeeSettingsEntry
+	case LedgerHashesEntry:
+		return LedgerHashesEntry
+	case NegativeUNLEntry:
+		return NegativeUNLEntry
+	case NFTokenOfferEntry:
+		return NFTokenOfferEntry
+	case NFTokenPageEntry:
+		return NFTokenPageEntry
+	case OfferEntry:
+		return OfferEntry
+	case PayChannelEntry:
+		return PayChannelEntry
+	case RippleStateEntry:
+		return RippleStateEntry
+	case SignerListEntry:
+		return SignerListEntry
+	case TicketEntry:
+		return TicketEntry
+	default:
+		return LedgerEntryType("")
+	}
+}
+
 func EmptyLedgerObject(t string) (LedgerObject, error) {
 	switch LedgerEntryType(t) {
 	case AccountRootEntry:
@@ -120,5 +159,4 @@ func UnmarshalLedgerObject(data []byte) (LedgerObject, error) {
 		return nil, err
 	}
 	return o, nil
-
 }

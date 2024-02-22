@@ -10,7 +10,7 @@ import (
 func TestLedgerHashes(t *testing.T) {
 	var s LedgerObject = &LedgerHashes{
 		FirstLedgerSequence: 2,
-		Flags:               0,
+		Flags:               types.SetFlag(0),
 		Hashes: []types.Hash256{
 			"D638208ADBD04CBB10DE7B645D3AB4BA31489379411A3A347151702B6401AA78",
 			"254D690864E418DDD9BCAC93F41B1F53B1AE693FC5FE667CE40205C322D1BE3B",

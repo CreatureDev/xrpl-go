@@ -2,6 +2,7 @@ package types
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 
 	"github.com/CreatureDev/xrpl-go/binary-codec/serdes"
@@ -25,7 +26,7 @@ var ErrNotSTObjectInSTArray = errors.New("not STObject in STArray. Array fields 
 func (t *STArray) FromJson(json any) ([]byte, error) {
 	rv := reflect.ValueOf(json)
 	if rv.Kind() != reflect.Slice {
-		return nil, ErrNotSTObjectInSTArray
+		return nil, fmt.Errorf("provided starray is not a slice: %w", ErrNotSTObjectInSTArray)
 	}
 	var sink []byte
 	for i := 0; i < rv.Len(); i++ {
@@ -33,7 +34,7 @@ func (t *STArray) FromJson(json any) ([]byte, error) {
 		st := &STObject{}
 		b, err := st.FromJson(val)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("from json: %w", err)
 		}
 		sink = append(sink, b...)
 	}

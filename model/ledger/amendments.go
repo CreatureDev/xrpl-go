@@ -6,8 +6,8 @@ import (
 
 type Amendments struct {
 	Amendments      []types.Hash256 `json:",omitempty"`
-	Flags           uint32
-	LedgerEntryType LedgerEntryType
+	Flags           *types.Flag     `json:",omitempty"`
+	LedgerEntryType LedgerEntryType `json:",omitempty"`
 	Majorities      []MajorityEntry `json:",omitempty"`
 }
 

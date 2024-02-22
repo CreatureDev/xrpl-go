@@ -12,15 +12,17 @@ func (f SignerListFlags) ToUint() uint32 {
 	return uint32(f)
 }
 
+type SignerListID uint32
+
 type SignerList struct {
-	LedgerEntryType   LedgerEntryType
-	Flags             SignerListFlags
-	PreviousTxnID     string
-	PreviousTxnLgrSeq uint32
-	OwnerNode         string
-	SignerEntries     []SignerEntryWrapper
-	SignerListID      uint32
-	SignerQuorum      uint32
+	LedgerEntryType   LedgerEntryType      `json:",omitempty"`
+	Flags             *types.Flag          `json:",omitempty"`
+	PreviousTxnID     string               `json:",omitempty"`
+	PreviousTxnLgrSeq uint32               `json:",omitempty"`
+	OwnerNode         string               `json:",omitempty"`
+	SignerEntries     []SignerEntryWrapper `json:",omitempty"`
+	SignerListID      *types.UInt          `json:",omitempty"`
+	SignerQuorum      uint32               `json:",omitempty"`
 }
 
 type SignerEntryWrapper struct {
@@ -28,8 +30,8 @@ type SignerEntryWrapper struct {
 }
 
 type SignerEntry struct {
-	Account       types.Address
-	SignerWeight  uint16
+	Account       types.Address `json:",omitempty"`
+	SignerWeight  uint16        `json:",omitempty"`
 	WalletLocator types.Hash256 `json:",omitempty"`
 }
 

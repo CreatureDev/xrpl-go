@@ -5,13 +5,13 @@ import (
 )
 
 type DepositPreauthObj struct {
-	Account           types.Address
-	Authorize         types.Address
-	Flags             uint32
-	LedgerEntryType   LedgerEntryType
-	OwnerNode         string
-	PreviousTxnID     types.Hash256
-	PreviousTxnLgrSeq uint32
+	Account           types.Address   `json:",omitempty"`
+	Authorize         types.Address   `json:",omitempty"`
+	Flags             *types.Flag     `json:",omitempty"`
+	LedgerEntryType   LedgerEntryType `json:",omitempty"`
+	OwnerNode         string          `json:",omitempty"`
+	PreviousTxnID     types.Hash256   `json:",omitempty"`
+	PreviousTxnLgrSeq uint32          `json:",omitempty"`
 }
 
 func (*DepositPreauthObj) EntryType() LedgerEntryType {

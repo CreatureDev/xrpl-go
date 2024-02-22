@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/hex"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -52,7 +53,7 @@ func TestSTArrayFromJson(t *testing.T) {
 							Account:           "r68xfQkhFxZrbwo6RRKq728JF2fJYQRE1",
 							BookDirectory:     "036D7E923EF22B65E19D95A6365C3373E1E96586E27015074A0745621D069432",
 							BookNode:          "0",
-							Flags:             131072,
+							Flags:             types.SetFlag(131072),
 							OwnerNode:         "0",
 							PreviousTxnID:     "B21E9DC8DCB75AD12C4ACF4C72E6E822244CF6CFFD7BD738ACEED1264374B687",
 							PreviousTxnLgrSeq: 82010985,
@@ -75,14 +76,14 @@ func TestSTArrayFromJson(t *testing.T) {
 							Balance:    types.XRPCurrencyAmount(3310960263),
 							Flags:      types.SetFlag(0),
 							MessageKey: "020000000000000000000000002B8F120A4CD1A6B236CC4389A30AB676CD722144",
-							OwnerCount: 8,
+							OwnerCount: types.SetUInt(8),
 							Sequence:   59434319,
 						},
 						LedgerEntryType: ledger.AccountRootEntry,
 						LedgerIndex:     "F8C1F1AE7AEF06FEFB2311232CA30A7803820A79AE65F567354629D579BB38B1",
 						PreviousFields: &ledger.AccountRoot{
 							Balance:    types.XRPCurrencyAmount(3310960413),
-							OwnerCount: 9,
+							OwnerCount: types.SetUInt(9),
 							Sequence:   59434318,
 						},
 						PreviousTxnID:     "DC99E25A951DBBF89D331428DFFE72880159C03D0A4F48EBC81A277CFFBCE683",
@@ -95,7 +96,7 @@ func TestSTArrayFromJson(t *testing.T) {
 		},
 	}
 
-	for _, tc := range tt {
+	for ind, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
 			sa := &STArray{}
 			got, err := sa.FromJson(tc.input)
@@ -104,7 +105,7 @@ func TestSTArrayFromJson(t *testing.T) {
 				require.Empty(t, got)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, tc.output, strings.ToUpper(hex.EncodeToString(got)))
+				require.Equal(t, tc.output, strings.ToUpper(hex.EncodeToString(got)), "failed on index "+fmt.Sprint(ind))
 			}
 		})
 	}

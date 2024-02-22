@@ -7,13 +7,13 @@ import (
 )
 
 type AMM struct {
-	Asset          AMMAsset
-	Asset2         AMMAsset
-	AMMAccount     types.Address
-	AuctionSlot    AMMAuctionSlot `json:",omitempty"`
-	LPTokenBalance types.CurrencyAmount
-	TradingFee     uint16
-	VoteSlots      []AMMVoteEntry `json:",omitempty"`
+	Asset          AMMAsset             `json:",omitempty"`
+	Asset2         AMMAsset             `json:",omitempty"`
+	AMMAccount     types.Address        `json:",omitempty"`
+	AuctionSlot    AMMAuctionSlot       `json:",omitempty"`
+	LPTokenBalance types.CurrencyAmount `json:",omitempty"`
+	TradingFee     uint16               `json:",omitempty"`
+	VoteSlots      []AMMVoteEntry       `json:",omitempty"`
 }
 
 func (a *AMM) UnmarshalJSON(data []byte) error {

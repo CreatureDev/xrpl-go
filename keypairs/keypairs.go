@@ -19,8 +19,8 @@ func init() {
 
 type CryptoImplementation interface {
 	deriveKeypair(decodedSeed []byte, validator bool) (string, string, error)
-	sign(msg, privKey string) (string, error)
-	validate(msg, pubkey, sig string) bool
+	sign(msg []byte, privKey string) (string, error)
+	validate(msg []byte, pubkey, sig string) bool
 }
 
 func GenerateSeed(entropy string, alg addresscodec.CryptoAlgorithm) (string, error) {
@@ -51,9 +51,9 @@ func DeriveKeypair(seed string, validator bool) (private, public string, err err
 	if err != nil {
 		return
 	}
-	signature, err := ci.sign(VERIFICATIONMESSAGE, private)
+	signature, err := ci.sign([]byte(VERIFICATIONMESSAGE), private)
 
-	if !ci.validate(VERIFICATIONMESSAGE, public, signature) {
+	if !ci.validate([]byte(VERIFICATIONMESSAGE), public, signature) {
 		return "", "", &InvalidSignatureError{}
 	}
 	return
@@ -63,7 +63,7 @@ func DeriveClassicAddress(pubkey string) (string, error) {
 	return addresscodec.EncodeClassicAddressFromPublicKeyHex(pubkey)
 }
 
-func Sign(msg, privKey string) (string, error) {
+func Sign(msg []byte, privKey string) (string, error) {
 	alg := getCryptoImplementationFromKey(privKey)
 	if alg == nil {
 		return "", &CryptoImplementationError{}
@@ -71,7 +71,7 @@ func Sign(msg, privKey string) (string, error) {
 	return alg.sign(msg, privKey)
 }
 
-func Validate(msg, pubKey, sig string) (bool, error) {
+func Validate(msg []byte, pubKey, sig string) (bool, error) {
 	alg := getCryptoImplementationFromKey(pubKey)
 	if alg == nil {
 		return false, &CryptoImplementationError{}

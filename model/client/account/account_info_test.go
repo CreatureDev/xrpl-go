@@ -3,11 +3,11 @@ package account
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/CreatureDev/xrpl-go/model/client/common"
 	"github.com/CreatureDev/xrpl-go/model/ledger"
 	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"github.com/CreatureDev/xrpl-go/test"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAccountInfoRequest(t *testing.T) {
@@ -38,7 +38,7 @@ func TestAccountInfoResponse(t *testing.T) {
 			Balance:           types.XRPCurrencyAmount(999999999960),
 			Flags:             types.SetFlag(8388608),
 			LedgerEntryType:   ledger.AccountRootEntry,
-			OwnerCount:        0,
+			OwnerCount:        types.SetUInt(0),
 			PreviousTxnID:     "4294BEBE5B569A18C0A2702387C9B1E7146DC3A5850C1E87204951C6FDAA4C42",
 			PreviousTxnLgrSeq: 3,
 			Sequence:          6,

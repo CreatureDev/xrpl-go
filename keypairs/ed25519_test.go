@@ -3,8 +3,8 @@ package keypairs
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
 	addresscodec "github.com/CreatureDev/xrpl-go/address-codec"
+	"github.com/stretchr/testify/require"
 )
 
 func TestED25519DeriveKeypair(t *testing.T) {
@@ -85,7 +85,7 @@ func TestED25519Sign(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
-			actual, err := e.sign(tc.inputMsg, tc.inputPrivKey)
+			actual, err := e.sign([]byte(tc.inputMsg), tc.inputPrivKey)
 
 			if tc.expectedErr != nil {
 				require.Zero(t, actual)
@@ -125,7 +125,7 @@ func TestED25519Validate(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.description, func(t *testing.T) {
-			actual := e.validate(tc.inputMsg, tc.inputPubKey, tc.inputSig)
+			actual := e.validate([]byte(tc.inputMsg), tc.inputPubKey, tc.inputSig)
 			require.Equal(t, tc.expected, actual)
 		})
 	}

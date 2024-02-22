@@ -35,3 +35,73 @@ const (
 	HashedTx               TxType = "HASH"   // TX stored as a string, rather than complete tx obj
 	BinaryTx               TxType = "BINARY" // TX stored as a string, json tagged as 'tx_blob'
 )
+
+func GetTxTypeOfString(t string) TxType {
+	switch TxType(t) {
+
+	case AccountSetTx:
+		return AccountSetTx
+	case AccountDeleteTx:
+		return AccountDeleteTx
+	case AMMBidTx:
+		return AMMBidTx
+	case AMMCreateTx:
+		return AMMCreateTx
+	case AMMDepositTx:
+		return AMMDepositTx
+	case AMMVoteTx:
+		return AMMVoteTx
+	case AMMWithdrawTx:
+		return AMMWithdrawTx
+	case CheckCancelTx:
+		return CheckCancelTx
+	case CheckCashTx:
+		return CheckCashTx
+	case CheckCreateTx:
+		return CheckCreateTx
+	case DepositPreauthTx:
+		return DepositPreauthTx
+	case EscrowCancelTx:
+		return EscrowCancelTx
+	case EscrowCreateTx:
+		return EscrowCreateTx
+	case EscrowFinishTx:
+		return EscrowFinishTx
+	case NFTokenAcceptOfferTx:
+		return NFTokenAcceptOfferTx
+	case NFTokenBurnTx:
+		return NFTokenBurnTx
+	case NFTokenCancelOfferTx:
+		return NFTokenCancelOfferTx
+	case NFTokenCreateOfferTx:
+		return NFTokenCreateOfferTx
+	case NFTokenMintTx:
+		return NFTokenMintTx
+	case OfferCreateTx:
+		return OfferCreateTx
+	case OfferCancelTx:
+		return OfferCancelTx
+	case PaymentTx:
+		return PaymentTx
+	case PaymentChannelClaimTx:
+		return PaymentChannelClaimTx
+	case PaymentChannelCreateTx:
+		return PaymentChannelCreateTx
+	case PaymentChannelFundTx:
+		return PaymentChannelFundTx
+	case SetRegularKeyTx:
+		return SetRegularKeyTx
+	case SignerListSetTx:
+		return SignerListSetTx
+	case TrustSetTx:
+		return TrustSetTx
+	case TicketCreateTx:
+		return TicketCreateTx
+	case HashedTx:
+		return HashedTx
+	case BinaryTx:
+		return BinaryTx
+	default:
+		return TxType("")
+	}
+}

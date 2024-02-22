@@ -3,11 +3,11 @@ package ledger
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/CreatureDev/xrpl-go/model/client/common"
 	"github.com/CreatureDev/xrpl-go/model/ledger"
 	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"github.com/CreatureDev/xrpl-go/test"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLedgerEntryRequest(t *testing.T) {
@@ -41,7 +41,7 @@ func TestLedgerEntryResponse(t *testing.T) {
 			Flags:             types.SetFlag(9568256),
 			LedgerEntryType:   ledger.AccountRootEntry,
 			MessageKey:        "0000000000000000000000070000000300",
-			OwnerCount:        12,
+			OwnerCount:        types.SetUInt(12),
 			PreviousTxnID:     "4E0AA11CBDD1760DE95B68DF2ABBE75C9698CEB548BEA9789053FCB3EBD444FB",
 			PreviousTxnLgrSeq: 61965653,
 			RegularKey:        "rD9iJmieYHn8jTtPjwwkW2Wm9sVDvPXLoJ",

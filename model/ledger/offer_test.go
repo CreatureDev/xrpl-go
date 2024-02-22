@@ -12,7 +12,7 @@ func TestOffer(t *testing.T) {
 		Account:           "rBqb89MRQJnMPq8wTwEbtz4kvxrEDfcYvt",
 		BookDirectory:     "ACC27DE91DBA86FC509069EAF4BC511D73128B780F2E54BF5E07A369E2446000",
 		BookNode:          "0000000000000000",
-		Flags:             131072,
+		Flags:             types.SetFlag(131072),
 		LedgerEntryType:   OfferEntry,
 		OwnerNode:         "0000000000000000",
 		PreviousTxnID:     "F0AB71E777B2DA54B86231E19B82554EF1F8211F92ECA473121C655BFC5329BF",

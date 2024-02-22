@@ -22,16 +22,24 @@ const (
 )
 
 func encode(tx transactions.Tx, onlySigning bool, mutations map[string]types.FieldMutation) (string, error) {
+	b, err := encodeBinary(tx, onlySigning, mutations)
+	if err != nil {
+		return "", err
+	}
+	return strings.ToUpper(hex.EncodeToString(b)), nil
+}
+
+func encodeBinary(tx transactions.Tx, onlySigning bool, mutations map[string]types.FieldMutation) ([]byte, error) {
 	st := &types.STObject{
 		OnlySigning: onlySigning,
 		Mutations:   mutations,
 	}
 	b, err := st.FromJson(tx)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return strings.ToUpper(hex.EncodeToString(b)), nil
+	return b, nil
 }
 
 // Encode converts a JSON transaction object to a hex string in the canonical binary format.
@@ -43,13 +51,12 @@ func Encode(tx transactions.Tx) (string, error) {
 // EncodeForMultiSign: encodes a transaction into binary format in preparation for providing one
 // signature towards a multi-signed transaction.
 // (Only encodes fields that are intended to be signed.)
-func EncodeForMultisigning(tx transactions.Tx, xrpAccountID string) (string, error) {
-
+func EncodeForMultisigning(tx transactions.Tx, xrpAccountID string) ([]byte, error) {
 	st := &types.AccountID{}
 
 	suffix, err := st.FromJson(xrpAccountID)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	// SigningPubKey is required for multi-signing but should be set to empty string.
@@ -57,57 +64,72 @@ func EncodeForMultisigning(tx transactions.Tx, xrpAccountID string) (string, err
 		return v.(string) == ""
 	})
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	encoded, err := encode(tx, true, map[string]types.FieldMutation{
+	encoded, err := encodeBinary(tx, true, map[string]types.FieldMutation{
 		"SigningPubKey": types.Zero(),
 	})
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
+	ret, err := hex.DecodeString(txMultiSigPrefix)
+	if err != nil {
+		return nil, err
+	}
+	ret = append(ret, encoded...)
+	ret = append(ret, suffix...)
 
-	return strings.ToUpper(txMultiSigPrefix + encoded + hex.EncodeToString(suffix)), nil
+	return ret, nil
 }
 
 // Encodes a transaction into binary format in preparation for signing.
-func EncodeForSigning(tx transactions.Tx) (string, error) {
-
-	encoded, err := encode(tx, true, nil)
-
+func EncodeForSigning(tx transactions.Tx) ([]byte, error) {
+	encoded, err := encodeBinary(tx, true, nil)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return strings.ToUpper(txSigPrefix + encoded), nil
+	ret, err := hex.DecodeString(txSigPrefix)
+	if err != nil {
+		return nil, err
+	}
+	ret = append(ret, encoded...)
+	return ret, nil
 }
 
 // EncodeForPaymentChannelClaim: encodes a payment channel claim into binary format in preparation for signing.
-func EncodeForSigningClaim(tx transactions.PaymentChannelClaim) (string, error) {
+func EncodeForSigningClaim(tx transactions.PaymentChannelClaim) ([]byte, error) {
 
 	if tx.Channel == "" || tx.Amount == 0 {
-		return "", ErrSigningClaimFieldNotFound
+		return nil, ErrSigningClaimFieldNotFound
 	}
 
 	channel, err := types.NewHash256().FromJson(tx.Channel)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	t := &types.Amount{}
 	amount, err := t.FromJson(tx.Amount)
 
 	if err != nil {
-		return "", err
+		return nil, err
 
 	}
 
 	if bytes.HasPrefix(amount, []byte{0x40}) {
 		amount = bytes.Replace(amount, []byte{0x40}, []byte{0x00}, 1)
 	}
+	ret, err := hex.DecodeString(paymentChannelClaimPrefix)
+	if err != nil {
+		return nil, err
+	}
+	ret = append(ret, channel...)
+	ret = append(ret, amount...)
 
-	return strings.ToUpper(paymentChannelClaimPrefix + hex.EncodeToString(channel) + hex.EncodeToString(amount)), nil
+	return ret, nil
 }
 
 // Decode decodes a hex string in the canonical binary format into a JSON transaction object.
@@ -116,6 +138,11 @@ func Decode(hexEncoded string) (map[string]any, error) {
 	if err != nil {
 		return nil, err
 	}
+	return DecodeBinary(b)
+}
+
+// DeocdeBinary decodes canonical binary format into JSON transition object
+func DecodeBinary(b []byte) (map[string]any, error) {
 	p := serdes.NewBinaryParser(b)
 	st := &types.STObject{}
 	m, err := st.ToJson(p)
@@ -124,6 +151,7 @@ func Decode(hexEncoded string) (map[string]any, error) {
 	}
 
 	return m.(map[string]any), nil
+
 }
 
 // Overwrites a field in a transaction with a new value if condition is met.

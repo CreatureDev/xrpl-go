@@ -3,6 +3,8 @@ package types
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
+	"reflect"
 
 	"github.com/CreatureDev/xrpl-go/binary-codec/definitions"
 	"github.com/CreatureDev/xrpl-go/binary-codec/serdes"
@@ -17,30 +19,44 @@ type UInt16 struct{}
 // If the input value is a string, it's assumed to be a transaction type or ledger entry type name, and the
 // method will attempt to convert it into a corresponding type code. If the conversion fails, an error is returned.
 func (u *UInt16) FromJson(value any) ([]byte, error) {
+	var encVal uint16
 	switch v := value.(type) {
 	case uint16:
-		value = v
+		encVal = v
 	case uint:
-		value = uint16(v)
+		encVal = uint16(v)
 	case int:
-		value = uint16(v)
+		encVal = uint16(v)
 	case transactions.TxType:
 		tc, err := definitions.Get().GetTransactionTypeCodeByTransactionTypeName(string(v))
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("get transaction type code: %w", err)
 		}
-		value = uint16(tc)
+		encVal = uint16(tc)
 	case ledger.LedgerEntryType:
 		tc, err := definitions.Get().GetLedgerEntryTypeCodeByLedgerEntryTypeName(string(v))
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("get ledger entry type code: %w", err)
 		}
-		value = uint16(tc)
+		encVal = uint16(tc)
+	case string:
+		str := value.(string)
+		tl := ledger.GetLedgerEntryTypeOfString(str)
+		if len(tl) > 0 {
+			return u.FromJson(tl)
+		}
+		tt := transactions.GetTxTypeOfString(str)
+		if len(tt) > 0 {
+			return u.FromJson(tt)
+		}
+		return nil, fmt.Errorf("unknown string to uint16 encountered, %s", str)
+	default:
+		return nil, fmt.Errorf("unexpected uint16 value type " + reflect.TypeOf(value).Name())
 	}
 	buf := new(bytes.Buffer)
-	err := binary.Write(buf, binary.BigEndian, value)
+	err := binary.Write(buf, binary.BigEndian, encVal)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("write uint16 to buffer: %w", err)
 	}
 	return buf.Bytes(), nil
 }
