@@ -11,7 +11,7 @@ type FundAccountRequest struct {
 }
 
 func (*FundAccountRequest) Method() string {
-	return ""
+	return "fund_account"
 }
 
 func (f *FundAccountRequest) Validate() error {
