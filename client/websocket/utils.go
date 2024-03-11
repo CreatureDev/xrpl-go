@@ -3,14 +3,16 @@ package websocket
 import (
 	"encoding/json"
 
-	"github.com/mitchellh/mapstructure"
 	"github.com/CreatureDev/xrpl-go/client"
+	"github.com/mitchellh/mapstructure"
 )
 
 func (c *WebsocketClient) formatRequest(req client.XRPLRequest, id int, marker any) ([]byte, error) {
 	m := make(map[string]any)
 	m["id"] = id
-	m["command"] = req.Method()
+	if method := req.Method(); method != "" {
+		m["command"] = method
+	}
 	if marker != nil {
 		m["marker"] = marker
 	}

@@ -14,6 +14,7 @@ type XRPLClient struct {
 	Transaction  Transaction
 	Server       Server
 	Clio         Clio
+	Faucet       Faucet
 }
 
 type XRPLRequest interface {
@@ -42,6 +43,7 @@ func NewXRPLClient(cl Client) *XRPLClient {
 		Subscription: &subscriptionImpl{client: cl},
 		Transaction:  &transactionImpl{client: cl},
 		Clio:         &clioImpl{client: cl},
+		Faucet:       &faucetImpl{client: cl},
 	}
 }
 
