@@ -84,6 +84,6 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 	}
 	var ret faucet.FundAccountResponse
 	err = json.Unmarshal(b, &ret)
-	return &ret, nil, err
+	return &ret, nil, fmt.Errorf("unmarshal: %w", err)
 
 }
