@@ -16,6 +16,7 @@ type HTTPClient interface {
 type JsonRpcConfig struct {
 	HTTPClient HTTPClient
 	Url        string
+	Faucet     string
 	Headers    map[string][]string
 }
 
@@ -24,6 +25,12 @@ type JsonRpcConfigOpt func(c *JsonRpcConfig)
 func WithHttpClient(cl HTTPClient) JsonRpcConfigOpt {
 	return func(c *JsonRpcConfig) {
 		c.HTTPClient = cl
+	}
+}
+
+func WithFaucet(faucet string) JsonRpcConfigOpt {
+	return func(c *JsonRpcConfig) {
+		c.Faucet = faucet
 	}
 }
 
@@ -44,10 +51,21 @@ func NewJsonRpcConfig(url string, opts ...JsonRpcConfigOpt) (*JsonRpcConfig, err
 		Headers: map[string][]string{
 			"Content-Type": {"application/json"},
 		},
+		Faucet: defaultFaucet(url),
 	}
 
 	for _, opt := range opts {
 		opt(cfg)
 	}
 	return cfg, nil
+}
+
+func defaultFaucet(url string) string {
+	if strings.Contains(url, "altnet") {
+		return "https://faucet.altnet.rippletest.net/accounts"
+	}
+	if strings.Contains(url, "devnet") {
+		return "https://faucet.devnet.rippletest.net/accounts"
+	}
+	return ""
 }

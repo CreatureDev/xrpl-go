@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/CreatureDev/xrpl-go/model/client/faucet"
@@ -22,9 +21,7 @@ type faucetImpl struct {
 }
 
 func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAccountResponse, XRPLResponse, error) {
-	url := f.client.Address()
-	url = strings.TrimSuffix(url, "/")
-	url = url + "/accounts"
+	url := f.client.Faucet()
 	httpClient := http.Client{Timeout: time.Duration(1) * time.Second}
 	body, _ := json.Marshal(req)
 	httpReq, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))

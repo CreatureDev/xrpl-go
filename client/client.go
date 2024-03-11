@@ -3,6 +3,7 @@ package client
 type Client interface {
 	SendRequest(req XRPLRequest) (XRPLResponse, error)
 	Address() string
+	Faucet() string
 }
 
 type XRPLClient struct {

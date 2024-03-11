@@ -47,6 +47,10 @@ func (c *JsonRpcClient) Address() string {
 	return c.Config.Url
 }
 
+func (c *JsonRpcClient) Faucet() string {
+	return c.Config.Faucet
+}
+
 // satisfy the Client interface
 func (c *JsonRpcClient) SendRequest(reqParams client.XRPLRequest) (client.XRPLResponse, error) {
 
