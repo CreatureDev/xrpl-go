@@ -30,7 +30,7 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 	httpReq, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
 
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, fmt.Errorf("building request: %w", err)
 	}
 
 	// add timeout context to prevent hanging
@@ -42,7 +42,7 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 
 	response, err = httpClient.Do(httpReq)
 	if err != nil || response == nil {
-		return nil, nil, err
+		return nil, nil, fmt.Errorf("sending request: %w", err)
 	}
 
 	// allow client to reuse persistant connection
@@ -60,7 +60,7 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 			// Make request again after waiting
 			response, err = httpClient.Do(httpReq)
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, fmt.Errorf("retrying request: %w", err)
 			}
 
 			if response.StatusCode != 503 {
@@ -80,7 +80,7 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 
 	b, err := io.ReadAll(response.Body)
 	if err != nil || b == nil {
-		return nil, nil, err
+		return nil, nil, fmt.Errorf("reading response: %w", err)
 	}
 	var ret faucet.FundAccountResponse
 	err = json.Unmarshal(b, &ret)
