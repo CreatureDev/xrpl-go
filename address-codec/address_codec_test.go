@@ -4,6 +4,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -65,7 +66,7 @@ func TestEncodeClassicAddressFromPublicKeyHex(t *testing.T) {
 	tt := []struct {
 		description    string
 		input          string
-		expectedOutput string
+		expectedOutput types.Address
 		expectedErr    error
 	}{
 		{

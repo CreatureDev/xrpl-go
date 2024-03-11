@@ -23,6 +23,10 @@ type WebsocketClient struct {
 	idCounter atomic.Uint32
 }
 
+func (c *WebsocketClient) Address() string {
+	return c.cfg.URL
+}
+
 func (c *WebsocketClient) SendRequest(req client.XRPLRequest) (client.XRPLResponse, error) {
 	err := req.Validate()
 	if err != nil {

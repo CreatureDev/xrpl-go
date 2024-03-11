@@ -140,7 +140,7 @@ func TestDeriveClassicAddress(t *testing.T) {
 	tt := []struct {
 		description string
 		input       string
-		expected    string
+		expected    types.Address
 		expectedErr error
 	}{
 		{

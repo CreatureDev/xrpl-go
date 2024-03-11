@@ -43,6 +43,10 @@ func NewClient(cfg *client.JsonRpcConfig) *client.XRPLClient {
 	return client.NewXRPLClient(jc)
 }
 
+func (c *JsonRpcClient) Address() string {
+	return c.Config.Url
+}
+
 // satisfy the Client interface
 func (c *JsonRpcClient) SendRequest(reqParams client.XRPLRequest) (client.XRPLResponse, error) {
 
