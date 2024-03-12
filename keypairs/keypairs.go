@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	addresscodec "github.com/CreatureDev/xrpl-go/address-codec"
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 )
 
 var r randomizer
@@ -59,7 +60,7 @@ func DeriveKeypair(seed string, validator bool) (private, public string, err err
 	return
 }
 
-func DeriveClassicAddress(pubkey string) (string, error) {
+func DeriveClassicAddress(pubkey string) (types.Address, error) {
 	return addresscodec.EncodeClassicAddressFromPublicKeyHex(pubkey)
 }
 

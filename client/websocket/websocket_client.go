@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"strings"
 	"sync/atomic"
 
 	"github.com/CreatureDev/xrpl-go/client"
@@ -15,12 +17,43 @@ var _ client.Client = (*WebsocketClient)(nil)
 var ErrIncorrectId = errors.New("incorrect id")
 
 type WebsocketConfig struct {
-	URL string
+	URL    string
+	Faucet string
+}
+
+type WebsocketConfigOpt func(c *WebsocketConfig)
+
+func NewWebsocketConfig(url string, opts ...WebsocketConfigOpt) (*WebsocketConfig, error) {
+	if len(url) == 0 {
+		return nil, fmt.Errorf("empty url provided")
+	}
+
+	if !strings.HasSuffix(url, "/") {
+		url += "/"
+	}
+
+	cfg := &WebsocketConfig{
+		URL:    url,
+		Faucet: defaultFaucet(url),
+	}
+
+	for _, opt := range opts {
+		opt(cfg)
+	}
+	return cfg, nil
 }
 
 type WebsocketClient struct {
 	cfg       *WebsocketConfig
 	idCounter atomic.Uint32
+}
+
+func (c *WebsocketClient) Address() string {
+	return c.cfg.URL
+}
+
+func (c *WebsocketClient) Faucet() string {
+	return c.cfg.Faucet
 }
 
 func (c *WebsocketClient) SendRequest(req client.XRPLRequest) (client.XRPLResponse, error) {
@@ -85,4 +118,14 @@ func NewClient(cfg *WebsocketConfig) *client.XRPLClient {
 		cfg: cfg,
 	}
 	return client.NewXRPLClient(wcl)
+}
+
+func defaultFaucet(url string) string {
+	if strings.Contains(url, "altnet") {
+		return "https://faucet.altnet.rippletest.net/accounts"
+	}
+	if strings.Contains(url, "devnet") {
+		return "https://faucet.devnet.rippletest.net/accounts"
+	}
+	return ""
 }

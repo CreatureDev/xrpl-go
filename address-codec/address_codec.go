@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	//nolint
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
 	"golang.org/x/crypto/ripemd160" //lint:ignore SA1019 // ignore this for now
 )
 
@@ -92,7 +93,7 @@ func Decode(b58string string, typePrefix []byte) ([]byte, error) {
 }
 
 // Returns the classic address from public key hex string.
-func EncodeClassicAddressFromPublicKeyHex(pubkeyhex string) (string, error) {
+func EncodeClassicAddressFromPublicKeyHex(pubkeyhex string) (types.Address, error) {
 
 	pubkey, err := hex.DecodeString(pubkeyhex)
 
@@ -118,7 +119,7 @@ func EncodeClassicAddressFromPublicKeyHex(pubkeyhex string) (string, error) {
 		return "", &InvalidClassicAddressError{Input: address}
 	}
 
-	return address, nil
+	return types.Address(address), nil
 }
 
 // Returns the decoded 'accountID' byte slice of the classic address.

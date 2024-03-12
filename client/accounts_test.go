@@ -35,6 +35,14 @@ func (m *mockClientXrplResponse) GetResult(v any) error {
 	return nil
 }
 
+func (m *mockClient) Address() string {
+	return ""
+}
+
+func (m *mockClient) Faucet() string {
+	return ""
+}
+
 func (m *mockClient) SendRequest(req XRPLRequest) (XRPLResponse, error) {
 	args := m.Called(req)
 	return args.Get(0).(XRPLResponse), args.Error(1)
