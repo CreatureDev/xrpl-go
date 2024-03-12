@@ -20,7 +20,7 @@ Install [pre-commit](https://github.com/pre-commit/pre-commit-hooks)
 ## Features
 * Binary Codec
 * Address Codec
-* Keypairs Generation - **to finish**
+* Keypairs Generation
 * Go Models 
 * Json Rpc Client
 * Webhook Client
