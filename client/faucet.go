@@ -25,7 +25,6 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 	httpClient := http.Client{Timeout: time.Duration(1) * time.Second}
 	body, _ := json.Marshal(req)
 	httpReq, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
-	fmt.Printf("Request: %+v\n", httpReq)
 
 	if err != nil {
 		return nil, nil, fmt.Errorf("building request: %w", err)
@@ -82,7 +81,9 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 	}
 	var ret faucet.FundAccountResponse
 	err = json.Unmarshal(b, &ret)
-	fmt.Println(string(b))
-	return &ret, nil, fmt.Errorf("unmarshal: %w", err)
+	if err != nil {
+		return nil, nil, fmt.Errorf("fund unmarshal: %w", err)
+	}
+	return &ret, nil, nil
 
 }

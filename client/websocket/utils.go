@@ -10,9 +10,7 @@ import (
 func (c *WebsocketClient) formatRequest(req client.XRPLRequest, id int, marker any) ([]byte, error) {
 	m := make(map[string]any)
 	m["id"] = id
-	if method := req.Method(); method != "" {
-		m["command"] = method
-	}
+	m["command"] = req.Method()
 	if marker != nil {
 		m["marker"] = marker
 	}
