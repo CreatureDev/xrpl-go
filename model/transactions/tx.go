@@ -86,6 +86,85 @@ func (*AMMWithdraw) TxType() TxType {
 	return AMMWithdrawTx
 }
 
+func BaseTxForTransaction(tx Tx) *BaseTx {
+	switch tx.TxType() {
+	case AccountSetTx:
+		a := tx.(*AccountSet)
+		return &a.BaseTx
+	case AccountDeleteTx:
+		a := tx.(*AccountDelete)
+		return &a.BaseTx
+	case CheckCancelTx:
+		c := tx.(*CheckCancel)
+		return &c.BaseTx
+	case CheckCashTx:
+		c := tx.(*CheckCash)
+		return &c.BaseTx
+	case CheckCreateTx:
+		c := tx.(*CheckCreate)
+		return &c.BaseTx
+	case DepositPreauthTx:
+		d := tx.(*DepositPreauth)
+		return &d.BaseTx
+	case EscrowCancelTx:
+		e := tx.(*EscrowCancel)
+		return &e.BaseTx
+	case EscrowCreateTx:
+		e := tx.(*EscrowCreate)
+		return &e.BaseTx
+	case EscrowFinishTx:
+		e := tx.(*EscrowFinish)
+		return &e.BaseTx
+	case NFTokenAcceptOfferTx:
+		n := tx.(*NFTokenAcceptOffer)
+		return &n.BaseTx
+	case NFTokenBurnTx:
+		n := tx.(*NFTokenBurn)
+		return &n.BaseTx
+	case NFTokenCancelOfferTx:
+		n := tx.(*NFTokenCancelOffer)
+		return &n.BaseTx
+	case NFTokenCreateOfferTx:
+		n := tx.(*NFTokenCreateOffer)
+		return &n.BaseTx
+	case NFTokenMintTx:
+		n := tx.(*NFTokenMint)
+		return &n.BaseTx
+	case OfferCreateTx:
+		o := tx.(*OfferCreate)
+		return &o.BaseTx
+	case OfferCancelTx:
+		o := tx.(*OfferCancel)
+		return &o.BaseTx
+	case PaymentTx:
+		p := tx.(*Payment)
+		return &p.BaseTx
+	case PaymentChannelClaimTx:
+		p := tx.(*PaymentChannelClaim)
+		return &p.BaseTx
+	case PaymentChannelCreateTx:
+		p := tx.(*PaymentChannelCreate)
+		return &p.BaseTx
+	case PaymentChannelFundTx:
+		p := tx.(*PaymentChannelFund)
+		return &p.BaseTx
+	case SetRegularKeyTx:
+		s := tx.(*SetRegularKey)
+		return &s.BaseTx
+	case SignerListSetTx:
+		s := tx.(*SignerListSet)
+		return &s.BaseTx
+	case TrustSetTx:
+		t := tx.(*TrustSet)
+		return &t.BaseTx
+	case TicketCreateTx:
+		t := tx.(*TicketCreate)
+		return &t.BaseTx
+	default:
+		return nil
+	}
+}
+
 func UnmarshalTx(data json.RawMessage) (Tx, error) {
 	if len(data) == 0 {
 		return nil, nil

@@ -1,5 +1,14 @@
 package client
 
+import (
+	"fmt"
+
+	"github.com/CreatureDev/xrpl-go/model/client/account"
+	"github.com/CreatureDev/xrpl-go/model/client/server"
+	"github.com/CreatureDev/xrpl-go/model/transactions"
+	"github.com/CreatureDev/xrpl-go/model/transactions/types"
+)
+
 type Client interface {
 	SendRequest(req XRPLRequest) (XRPLResponse, error)
 	Address() string
@@ -51,4 +60,32 @@ func NewXRPLClient(cl Client) *XRPLClient {
 
 func (c *XRPLClient) Client() Client {
 	return c.client
+}
+
+func (c *XRPLClient) AutofillTx(acc types.Address, tx transactions.Tx) error {
+	if tx == nil {
+		return nil
+	}
+	accInfoRequest := &account.AccountInfoRequest{
+		Account: acc,
+	}
+	b := transactions.BaseTxForTransaction(tx)
+	if b == nil {
+		base, ok := tx.(*transactions.BaseTx)
+		if !ok {
+			return fmt.Errorf("unknown transaction type")
+		}
+		b = base
+	}
+	accInfo, _, err := c.Account.AccountInfo(accInfoRequest)
+	if err != nil {
+		return fmt.Errorf("fetching account info: %w", err)
+	}
+	serverInfo, _, err := c.Server.ServerInfo(&server.ServerInfoRequest{})
+
+	b.Sequence = accInfo.AccountData.Sequence
+	b.TransactionType = tx.TxType()
+	b.Fee = types.XRPDropsFromFloat(serverInfo.Info.ValidatedLedger.BaseFeeXRP)
+
+	return nil
 }

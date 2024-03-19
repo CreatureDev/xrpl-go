@@ -78,6 +78,11 @@ func (XRPCurrencyAmount) Validate() error {
 	return nil
 }
 
+func XRPDropsFromFloat(f float32) XRPCurrencyAmount {
+	d := f * 1000000
+	return XRPCurrencyAmount(d)
+}
+
 func (a XRPCurrencyAmount) MarshalJSON() ([]byte, error) {
 	s := strconv.FormatUint(uint64(a), 10)
 	return json.Marshal(s)
