@@ -71,11 +71,7 @@ func (c *XRPLClient) AutofillTx(acc types.Address, tx transactions.Tx) error {
 	}
 	b := transactions.BaseTxForTransaction(tx)
 	if b == nil {
-		base, ok := tx.(*transactions.BaseTx)
-		if !ok {
-			return fmt.Errorf("unknown transaction type")
-		}
-		b = base
+		return fmt.Errorf("unknown transaction type")
 	}
 	accInfo, _, err := c.Account.AccountInfo(accInfoRequest)
 	if err != nil {

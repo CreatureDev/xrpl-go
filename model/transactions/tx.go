@@ -87,6 +87,12 @@ func (*AMMWithdraw) TxType() TxType {
 }
 
 func BaseTxForTransaction(tx Tx) *BaseTx {
+	if tx == nil {
+		return nil
+	}
+	if base, ok := tx.(*BaseTx); ok {
+		return base
+	}
 	switch tx.TxType() {
 	case AccountSetTx:
 		a := tx.(*AccountSet)
