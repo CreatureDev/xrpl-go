@@ -12,4 +12,5 @@ type AccountNFTsResponse struct {
 	LedgerHash         common.LedgerHash  `json:"ledger_hash,omitempty"`
 	LedgerCurrentIndex common.LedgerIndex `json:"ledger_current_index,omitempty"`
 	Validated          bool               `json:"validated"`
+	Marker             any                `json:"marker,omitempty"`
 }
