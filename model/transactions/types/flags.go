@@ -22,6 +22,7 @@ const (
 	FtfLimitLPToken             = 0x400000
 	FtfWithdrawAll              = 0x20000
 	FtfOneAssetWithdrawAll      = 0x40000
+	FtfSellNFToken              = 0x1
 
 	// Account Set Flags
 	FasfAccountTxnID                 = 5
