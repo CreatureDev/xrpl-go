@@ -24,6 +24,7 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 	url := f.client.Faucet()
 	httpClient := http.Client{Timeout: time.Duration(1) * time.Second}
 	body, _ := json.Marshal(req)
+	fmt.Printf("sending request: %s\n", string(body))
 	httpReq, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(body))
 
 	if err != nil {
