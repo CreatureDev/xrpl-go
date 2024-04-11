@@ -7,7 +7,9 @@ import (
 )
 
 type FundAccountRequest struct {
-	Destination types.Address `json:"destination"`
+	Destination  types.Address `json:"destination"`
+	UsageContext string        `json:"usageContext"`
+	UserAgent    string        `json:"userAgent"`
 }
 
 func (*FundAccountRequest) Method() string {
