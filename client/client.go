@@ -53,6 +53,7 @@ func NewXRPLClient(cl Client) *XRPLClient {
 		Path:         &pathImpl{client: cl},
 		Subscription: &subscriptionImpl{client: cl},
 		Transaction:  &transactionImpl{client: cl},
+		Server:       &serverImpl{client: cl},
 		Clio:         &clioImpl{client: cl},
 		Faucet:       &faucetImpl{client: cl},
 	}
