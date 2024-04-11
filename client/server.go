@@ -6,7 +6,7 @@ type Server interface {
 	Fee(*server.FeeRequest) (*server.FeeResponse, XRPLResponse, error)
 	Manifest(*server.ManifestRequest) (*server.ManifestResponse, XRPLResponse, error)
 	ServerInfo(*server.ServerInfoRequest) (*server.ServerInfoResponse, XRPLResponse, error)
-	ServerState(*server.ServerStateRequest) (*server.ServerStateRequest, XRPLResponse, error)
+	ServerState(*server.ServerStateRequest) (*server.ServerStateResponse, XRPLResponse, error)
 }
 
 type serverImpl struct {
