@@ -79,6 +79,9 @@ func (c *XRPLClient) AutofillTx(acc types.Address, tx transactions.Tx) error {
 		return fmt.Errorf("fetching account info: %w", err)
 	}
 	serverInfo, _, err := c.Server.ServerInfo(&server.ServerInfoRequest{})
+	if err != nil {
+		return fmt.Errorf("fetching server info: %w", err)
+	}
 
 	b.Sequence = accInfo.AccountData.Sequence
 	b.TransactionType = tx.TxType()
