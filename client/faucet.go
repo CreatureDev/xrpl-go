@@ -50,7 +50,7 @@ func (f *faucetImpl) FundAccount(req *faucet.FundAccountRequest) (*faucet.FundAc
 	defer response.Body.Close()
 
 	// Check for service unavailable response and retry if so
-	if response.StatusCode == 503 {
+	if response.StatusCode == 503 || response.StatusCode == 502 {
 
 		maxRetries := 3
 		backoffDuration := 1 * time.Second
