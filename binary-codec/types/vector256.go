@@ -18,7 +18,7 @@ type ErrInvalidVector256Type struct {
 
 // Error implements the error interface, providing a descriptive error message for ErrInvalidVector256Type.
 func (e *ErrInvalidVector256Type) Error() string {
-	return fmt.Sprintf("Invalid type to construct Vector256 from. Expected []string, got %v", e.Got)
+	return fmt.Sprintf("invalid type to construct Vector256 from. Expected []string, got %v", e.Got)
 }
 
 // Vector256 represents a 256 bit vector.
@@ -37,6 +37,16 @@ func (v *Vector256) FromJson(json any) ([]byte, error) {
 			values = append(values, string(hash))
 		}
 		return vector256FromValue([]string(values))
+	case []any:
+		s := make([]string, len(json))
+		for i, val := range json {
+			str, ok := val.(string)
+			if !ok {
+				return nil, &ErrInvalidVector256Type{fmt.Sprintf("entry %T", val)}
+			}
+			s[i] = str
+		}
+		return v.FromJson(s)
 	default:
 		return nil, &ErrInvalidVector256Type{fmt.Sprintf("%T", json)}
 	}

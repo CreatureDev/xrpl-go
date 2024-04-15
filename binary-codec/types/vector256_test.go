@@ -10,13 +10,13 @@ func TestVector256FromValue(t *testing.T) {
 
 	tests := []struct {
 		name     string
-		input    []string
+		input    []any
 		expected []byte
 		expErr   error
 	}{
 		{
 			name:     "test vector256 from value",
-			input:    []string{"73734B611DDA23D3F5F62E20A173B78AB8406AC5015094DA53F53D39B9EDB06C", "73734B611DDA23D3F5F62E20A173B78AB8406AC5015094DA53F53D39B9EDB06C"},
+			input:    []any{"73734B611DDA23D3F5F62E20A173B78AB8406AC5015094DA53F53D39B9EDB06C", "73734B611DDA23D3F5F62E20A173B78AB8406AC5015094DA53F53D39B9EDB06C"},
 			expected: []byte{0x73, 0x73, 0x4B, 0x61, 0x1D, 0xDA, 0x23, 0xD3, 0xF5, 0xF6, 0x2E, 0x20, 0xA1, 0x73, 0xB7, 0x8A, 0xB8, 0x40, 0x6A, 0xC5, 0x01, 0x50, 0x94, 0xDA, 0x53, 0xF5, 0x3D, 0x39, 0xB9, 0xED, 0xB0, 0x6C, 0x73, 0x73, 0x4B, 0x61, 0x1D, 0xDA, 0x23, 0xD3, 0xF5, 0xF6, 0x2E, 0x20, 0xA1, 0x73, 0xB7, 0x8A, 0xB8, 0x40, 0x6A, 0xC5, 0x01, 0x50, 0x94, 0xDA, 0x53, 0xF5, 0x3D, 0x39, 0xB9, 0xED, 0xB0, 0x6C},
 			expErr:   nil,
 		},
@@ -24,7 +24,8 @@ func TestVector256FromValue(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			got, err := vector256FromValue(tc.input)
+			v := &Vector256{}
+			got, err := v.FromJson(tc.input)
 
 			if tc.expErr != nil {
 				require.EqualError(t, tc.expErr, err.Error())
