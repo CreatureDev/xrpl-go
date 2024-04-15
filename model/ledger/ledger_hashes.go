@@ -8,6 +8,7 @@ type LedgerHashes struct {
 	Hashes              []types.Hash256 `json:",omitempty"`
 	LastLedgerSequence  uint32          `json:",omitempty"`
 	LedgerEntryType     LedgerEntryType `json:",omitempty"`
+	Index               types.Hash256   `json:"index,omitempty"`
 }
 
 func (*LedgerHashes) EntryType() LedgerEntryType {

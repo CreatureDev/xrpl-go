@@ -9,6 +9,7 @@ type NFTokenPage struct {
 	PreviousTxnID     types.Hash256   `json:",omitempty"`
 	PreviousTxnLgrSeq uint32          `json:",omitempty"`
 	NFTokens          []types.NFToken `json:",omitempty"`
+	Index             types.Hash256   `json:"index,omitempty"`
 }
 
 func (*NFTokenPage) EntryType() LedgerEntryType {

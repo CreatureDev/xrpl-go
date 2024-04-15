@@ -24,6 +24,7 @@ type AccountRoot struct {
 	TicketCount       uint32                  `json:",omitempty"`
 	TickSize          uint8                   `json:",omitempty"`
 	TransferRate      uint32                  `json:",omitempty"`
+	Index             types.Hash256           `json:"index,omitempty"`
 	// TODO determine if this is a required field
 	//Index             types.Hash256 `json:"index,omitempty"`
 }

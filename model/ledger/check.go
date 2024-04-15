@@ -18,6 +18,7 @@ type Check struct {
 	SendMax           string          `json:",omitempty"`
 	Sequence          uint            `json:",omitempty"`
 	SourceTag         uint            `json:",omitempty"`
+	Index             types.Hash256   `json:"index,omitempty"`
 }
 
 func (*Check) EntryType() LedgerEntryType {

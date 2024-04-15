@@ -12,6 +12,7 @@ type DepositPreauthObj struct {
 	OwnerNode         string          `json:",omitempty"`
 	PreviousTxnID     types.Hash256   `json:",omitempty"`
 	PreviousTxnLgrSeq uint32          `json:",omitempty"`
+	Index             types.Hash256   `json:"index,omitempty"`
 }
 
 func (*DepositPreauthObj) EntryType() LedgerEntryType {

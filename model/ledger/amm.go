@@ -14,6 +14,7 @@ type AMM struct {
 	LPTokenBalance types.CurrencyAmount `json:",omitempty"`
 	TradingFee     uint16               `json:",omitempty"`
 	VoteSlots      []AMMVoteEntry       `json:",omitempty"`
+	Index          types.Hash256        `json:"index,omitempty"`
 }
 
 func (a *AMM) UnmarshalJSON(data []byte) error {
@@ -25,6 +26,7 @@ func (a *AMM) UnmarshalJSON(data []byte) error {
 		LPTokenBalance json.RawMessage
 		TradingFee     uint16
 		VoteSlots      []AMMVoteEntry
+		Index          types.Hash256 `json:"index,omitempty"`
 	}
 	var h ammHelper
 	var err error
@@ -38,6 +40,7 @@ func (a *AMM) UnmarshalJSON(data []byte) error {
 		AuctionSlot: h.AuctionSlot,
 		TradingFee:  h.TradingFee,
 		VoteSlots:   h.VoteSlots,
+		Index:       h.Index,
 	}
 
 	a.LPTokenBalance, err = types.UnmarshalCurrencyAmount(h.LPTokenBalance)

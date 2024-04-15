@@ -18,6 +18,7 @@ type NFTokenOffer struct {
 	OwnerNode         string               `json:",omitempty"`
 	PreviousTxnID     types.Hash256        `json:",omitempty"`
 	PreviousTxnLgrSeq uint32               `json:",omitempty"`
+	Index             types.Hash256        `json:"index,omitempty"`
 }
 
 func (*NFTokenOffer) EntryType() LedgerEntryType {
@@ -38,6 +39,7 @@ func (n *NFTokenOffer) UnmarshalJSON(data []byte) error {
 		OwnerNode         string
 		PreviousTxnID     types.Hash256
 		PreviousTxnLgrSeq uint32
+		Index             types.Hash256 `json:"index,omitempty"`
 	}
 	var h nftHelper
 	if err := json.Unmarshal(data, &h); err != nil {
@@ -54,6 +56,7 @@ func (n *NFTokenOffer) UnmarshalJSON(data []byte) error {
 		OwnerNode:         h.OwnerNode,
 		PreviousTxnID:     h.PreviousTxnID,
 		PreviousTxnLgrSeq: h.PreviousTxnLgrSeq,
+		Index:             h.Index,
 	}
 	amnt, err := types.UnmarshalCurrencyAmount(h.Amount)
 	if err != nil {

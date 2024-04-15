@@ -30,6 +30,7 @@ type Offer struct {
 	Sequence          uint32               `json:",omitempty"`
 	TakerPays         types.CurrencyAmount `json:",omitempty"`
 	TakerGets         types.CurrencyAmount `json:",omitempty"`
+	Index             types.Hash256        `json:"index,omitempty"`
 }
 
 func (*Offer) EntryType() LedgerEntryType {
@@ -50,6 +51,7 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		Sequence          uint32
 		TakerPays         json.RawMessage
 		TakerGets         json.RawMessage
+		Index             types.Hash256 `json:"index,omitempty"`
 	}
 	var h offerHelper
 	if err := json.Unmarshal(data, &h); err != nil {
@@ -66,6 +68,7 @@ func (o *Offer) UnmarshalJSON(data []byte) error {
 		PreviousTxnID:     h.PreviousTxnID,
 		PreviousTxnLgrSeq: h.PreviousTxnLgrSeq,
 		Sequence:          h.Sequence,
+		Index:             h.Index,
 	}
 	pays, err := types.UnmarshalCurrencyAmount(h.TakerPays)
 	if err != nil {
