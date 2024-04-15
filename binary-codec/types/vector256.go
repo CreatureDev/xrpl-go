@@ -32,9 +32,9 @@ func (v *Vector256) FromJson(json any) ([]byte, error) {
 	case []string:
 		return vector256FromValue(json)
 	case []types.Hash256:
-		var values []string
-		for _, hash := range json {
-			values = append(values, string(hash))
+		values := make([]string, len(json))
+		for i, hash := range json {
+			values[i] = string(hash)
 		}
 		return vector256FromValue([]string(values))
 	case []any:
@@ -46,7 +46,7 @@ func (v *Vector256) FromJson(json any) ([]byte, error) {
 			}
 			s[i] = str
 		}
-		return v.FromJson(s)
+		return vector256FromValue(s)
 	default:
 		return nil, &ErrInvalidVector256Type{fmt.Sprintf("%T", json)}
 	}
