@@ -8,6 +8,7 @@ type NegativeUNL struct {
 	LedgerEntryType     LedgerEntryType          `json:",omitempty"`
 	ValidatorToDisable  string                   `json:",omitempty"`
 	ValidatorToReEnable string                   `json:",omitempty"`
+	Index               types.Hash256            `json:"index,omitempty"`
 }
 
 func (*NegativeUNL) EntryType() LedgerEntryType {

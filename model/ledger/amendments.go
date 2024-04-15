@@ -9,6 +9,7 @@ type Amendments struct {
 	Flags           *types.Flag     `json:",omitempty"`
 	LedgerEntryType LedgerEntryType `json:",omitempty"`
 	Majorities      []MajorityEntry `json:",omitempty"`
+	Index           types.Hash256   `json:"index,omitempty"`
 }
 
 func (*Amendments) EntryType() LedgerEntryType {

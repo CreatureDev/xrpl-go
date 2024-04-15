@@ -16,6 +16,7 @@ type DirectoryNode struct {
 	TakerGetsIssuer   string          `json:",omitempty"`
 	TakerPaysCurrency string          `json:",omitempty"`
 	TakerPaysIssuer   string          `json:",omitempty"`
+	Index             types.Hash256   `json:"index,omitempty"`
 }
 
 func (*DirectoryNode) EntryType() LedgerEntryType {

@@ -23,6 +23,7 @@ type SignerList struct {
 	SignerEntries     []SignerEntryWrapper `json:",omitempty"`
 	SignerListID      *types.UInt          `json:",omitempty"`
 	SignerQuorum      uint32               `json:",omitempty"`
+	Index             types.Hash256        `json:"index,omitempty"`
 }
 
 type SignerEntryWrapper struct {

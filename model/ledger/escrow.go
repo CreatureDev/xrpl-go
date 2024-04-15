@@ -19,6 +19,7 @@ type Escrow struct {
 	PreviousTxnID     types.Hash256           `json:",omitempty"`
 	PreviousTxnLgrSeq uint32                  `json:",omitempty"`
 	SourceTag         uint                    `json:",omitempty"`
+	Index             types.Hash256           `json:"index,omitempty"`
 }
 
 func (*Escrow) EntryType() LedgerEntryType {

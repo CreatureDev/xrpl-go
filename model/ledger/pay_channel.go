@@ -19,6 +19,7 @@ type PayChannel struct {
 	PublicKey         string                  `json:",omitempty"`
 	SettleDelay       uint                    `json:",omitempty"`
 	SourceTag         uint                    `json:",omitempty"`
+	Index             types.Hash256           `json:"index,omitempty"`
 }
 
 func (*PayChannel) EntryType() LedgerEntryType {

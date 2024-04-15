@@ -9,6 +9,7 @@ type FeeSettings struct {
 	ReferenceFeeUnits uint            `json:",omitempty"`
 	ReserveBase       uint            `json:",omitempty"`
 	ReserveIncrement  uint            `json:",omitempty"`
+	Index             types.Hash256   `json:"index,omitempty"`
 }
 
 func (*FeeSettings) EntryType() LedgerEntryType {

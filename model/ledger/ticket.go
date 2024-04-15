@@ -10,6 +10,7 @@ type Ticket struct {
 	PreviousTxnID     types.Hash256   `json:",omitempty"`
 	PreviousTxnLgrSeq uint32          `json:",omitempty"`
 	TicketSequence    uint32          `json:",omitempty"`
+	Index             types.Hash256   `json:"index,omitempty"`
 }
 
 func (*Ticket) EntryType() LedgerEntryType {
